@@ -52,46 +52,34 @@ func New(config Config) (*Service, error) {
 
 	var err error
 
-	var kubernetesClient kubernetes.Interface
+	var restConfig *rest.Config
 	{
-		var config *rest.Config
-		config, err = rest.InClusterConfig()
-		if err != nil {
-			return nil, microerror.Maskf(err, "failed to create in-cluster config for kubernetes client")
+		c := k8srestconfig.Config{
+			Logger: config.Logger,
+
+			Address:    config.Viper.GetString(config.Flag.Service.Kubernetes.Address),
+			InCluster:  config.Viper.GetBool(config.Flag.Service.Kubernetes.InCluster),
+			KubeConfig: config.Viper.GetString(config.Flag.Service.Kubernetes.KubeConfig),
+			TLS: k8srestconfig.ConfigTLS{
+				CAFile:  config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CAFile),
+				CrtFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CrtFile),
+				KeyFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.KeyFile),
+			},
 		}
-
-		kubernetesClient, err = kubernetes.NewForConfig(config)
-		if err != nil {
-			return nil, microerror.Maskf(err, "failed to create kubernetes client")
-		}
-	}
-
-	var g8sClient *versioned.Clientset
-	{
-		var restConfig *rest.Config
-		{
-			c := k8srestconfig.Config{
-				Logger: config.Logger,
-
-				Address:    config.Viper.GetString(config.Flag.Service.Kubernetes.Address),
-				InCluster:  config.Viper.GetBool(config.Flag.Service.Kubernetes.InCluster),
-				KubeConfig: config.Viper.GetString(config.Flag.Service.Kubernetes.KubeConfig),
-				TLS: k8srestconfig.ConfigTLS{
-					CAFile:  config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CAFile),
-					CrtFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CrtFile),
-					KeyFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.KeyFile),
-				},
-			}
-			restConfig, err = k8srestconfig.New(c)
-			if err != nil {
-				return nil, microerror.Mask(err)
-			}
-		}
-
-		g8sClient, err = versioned.NewForConfig(restConfig)
+		restConfig, err = k8srestconfig.New(c)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}
+	}
+
+	kubernetesClient, err := kubernetes.NewForConfig(restConfig)
+	if err != nil {
+		return nil, microerror.Mask(err)
+	}
+
+	g8sClient, err := versioned.NewForConfig(restConfig)
+	if err != nil {
+		return nil, microerror.Mask(err)
 	}
 
 	var exporterCollector *collector.Set

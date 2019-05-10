@@ -105,7 +105,7 @@ func mainError() error {
 			return microerror.Mask(err)
 		}
 	}
-	
+
 	daemonCommand := newCommand.DaemonCommand().CobraCommand()
 
 	daemonCommand.PersistentFlags().String(f.Service.Kubernetes.Address, "http://127.0.0.1:6443", "Address used to connect to Kubernetes. When empty in-cluster config is created.")
