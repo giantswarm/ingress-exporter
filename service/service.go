@@ -72,7 +72,7 @@ func New(config Config) (*Service, error) {
 		}
 	}
 
-	kubernetesClient, err := kubernetes.NewForConfig(restConfig)
+	k8sClient, err := kubernetes.NewForConfig(restConfig)
 	if err != nil {
 		return nil, microerror.Mask(err)
 	}
@@ -86,7 +86,7 @@ func New(config Config) (*Service, error) {
 	{
 		c := collector.SetConfig{
 			G8sClient:        g8sClient,
-			KubernetesClient: kubernetesClient,
+			K8sClient: k8sClient,
 			Logger:           config.Logger,
 		}
 

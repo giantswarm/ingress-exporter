@@ -24,13 +24,13 @@ var (
 
 type EndpointConfig struct {
 	G8sClient        *versioned.Clientset
-	KubernetesClient kubernetes.Interface
+	K8sClient kubernetes.Interface
 	Logger           micrologger.Logger
 }
 
 type Endpoint struct {
 	g8sClient        *versioned.Clientset
-	kubernetesClient kubernetes.Interface
+	k8sClient kubernetes.Interface
 	logger           micrologger.Logger
 
 	customLabels []string
@@ -40,8 +40,8 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 	if config.G8sClient == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.G8sClient must not be empty", config)
 	}
-	if config.KubernetesClient == nil {
-		return nil, microerror.Maskf(invalidConfigError, "%T.KubernetesClient must not be empty", config)
+	if config.K8sClient == nil {
+		return nil, microerror.Maskf(invalidConfigError, "%T.K8sClient must not be empty", config)
 	}
 	if config.Logger == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Logger must not be empty", config)
@@ -49,7 +49,7 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 
 	i := &Endpoint{
 		g8sClient:        config.G8sClient,
-		kubernetesClient: config.KubernetesClient,
+		k8sClient: config.K8sClient,
 		logger:           config.Logger,
 	}
 

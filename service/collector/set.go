@@ -10,7 +10,7 @@ import (
 
 type SetConfig struct {
 	G8sClient        *versioned.Clientset
-	KubernetesClient kubernetes.Interface
+	K8sClient kubernetes.Interface
 	Logger           micrologger.Logger
 }
 
@@ -28,7 +28,7 @@ func NewSet(config SetConfig) (*Set, error) {
 	{
 		c := EndpointConfig{
 			G8sClient:        config.G8sClient,
-			KubernetesClient: config.KubernetesClient,
+			K8sClient: config.K8sClient,
 			Logger:           config.Logger,
 		}
 
