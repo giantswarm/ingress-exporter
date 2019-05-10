@@ -15,6 +15,8 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      annotations:
+        releasetime: {{ $.Release.Time }}
       labels:
         app: ingress-exporter
     spec:
@@ -23,10 +25,10 @@ spec:
         image: quay.io/giantswarm/ingress-exporter:[[ .SHA ]]
         livenessProbe:
           httpGet:
-            path: /
-            port: 9410
+            path: /healthz
+            port: 8000
           initialDelaySeconds: 30
-          timeoutSeconds: 1
+          timeoutSeconds: 10
         resources:
           requests:
             cpu: 100m
@@ -36,6 +38,6 @@ spec:
             memory: 50Mi
         ports:
           - name: http
-            containerPort: 9410
+            containerPort: 8000
       imagePullSecrets:
-      - name: vault-exporter-pull-secret
+      - name: ingress-exporter-pull-secret
