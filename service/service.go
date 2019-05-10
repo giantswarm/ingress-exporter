@@ -71,10 +71,17 @@ func New(config Config) (*Service, error) {
 		var restConfig *rest.Config
 		{
 			c := k8srestconfig.Config{
-				Logger:    config.Logger,
-				InCluster: true,
-			}
+				Logger: config.Logger,
 
+				Address:    config.Viper.GetString(config.Flag.Service.Kubernetes.Address),
+				InCluster:  config.Viper.GetBool(config.Flag.Service.Kubernetes.InCluster),
+				KubeConfig: config.Viper.GetString(config.Flag.Service.Kubernetes.KubeConfig),
+				TLS: k8srestconfig.ConfigTLS{
+					CAFile:  config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CAFile),
+					CrtFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.CrtFile),
+					KeyFile: config.Viper.GetString(config.Flag.Service.Kubernetes.TLS.KeyFile),
+				},
+			}
 			restConfig, err = k8srestconfig.New(c)
 			if err != nil {
 				return nil, microerror.Mask(err)

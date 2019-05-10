@@ -94,7 +94,12 @@
 [[projects]]
   branch = "master"
   name = "github.com/giantswarm/operatorkit"
-  packages = ["client/k8srestconfig"]
+  packages = [
+    "client/k8srestconfig",
+    "flag/service/kubernetes",
+    "flag/service/kubernetes/tls",
+    "flag/service/kubernetes/watch"
+  ]
   revision = "dc60ddf19e89ce0a1ade4a52e94258734bf82dab"
 
 [[projects]]
@@ -162,29 +167,6 @@
   name = "github.com/google/btree"
   packages = ["."]
   revision = "4030bb1f1f0c35b30ca7009e9ebd06849dd45306"
-  version = "v1.0.0"
-
-[[projects]]
-  name = "github.com/google/go-cmp"
-  packages = [
-    "cmp",
-    "cmp/internal/diff",
-    "cmp/internal/function",
-    "cmp/internal/value"
-  ]
-  revision = "3af367b6b30c263d47e8895973edcca9a49cf029"
-  version = "v0.2.0"
-
-[[projects]]
-  name = "github.com/google/go-github"
-  packages = ["github"]
-  revision = "35781f7f4db7b3d7fc3359527472838da65023c6"
-  version = "v19.1.0"
-
-[[projects]]
-  name = "github.com/google/go-querystring"
-  packages = ["query"]
-  revision = "44c6ddd0a2342c386950e880b658017258da92fc"
   version = "v1.0.0"
 
 [[projects]]
@@ -654,6 +636,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a01fd0ea848d9cf6c90ca0516080a2bd9a6b113cd64b675e7a1d17be83251cb8"
+  inputs-digest = "9a9780f7def6b4a5d832f5757915162ce7764f2748f8ea95f3b5941d889b7c76"
   solver-name = "gps-cdcl"
   solver-version = 1
