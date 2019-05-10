@@ -23,6 +23,8 @@ spec:
       containers:
       - name: ingress-exporter
         image: quay.io/giantswarm/ingress-exporter:[[ .SHA ]]
+        args:
+        - daemon
         livenessProbe:
           httpGet:
             path: /healthz
