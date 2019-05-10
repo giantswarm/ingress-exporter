@@ -20,11 +20,23 @@ spec:
       labels:
         app: ingress-exporter
     spec:
+      volumes:
+        - name: ingress-exporter-configmap
+          configMap:
+            name: ingress-exporter-configmap
+            items:
+              - key: config.yaml
+                path: config.yaml
       containers:
       - name: ingress-exporter
         image: quay.io/giantswarm/ingress-exporter:[[ .SHA ]]
+        volumeMounts:
+          - name: ingress-exporter-configmap
+            mountPath: /var/run/ingress-exporter/configmap/
         args:
         - daemon
+        - --config.dirs=/var/run/ingress-exporter/configmap/
+        - --config.files=config
         livenessProbe:
           httpGet:
             path: /healthz
