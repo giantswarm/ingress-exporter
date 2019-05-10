@@ -6,8 +6,8 @@ const (
 )
 
 const (
-	labelClusterID = "cluster_id"
-	labelIP   = "ip"
-	labelProtocol = "protocol"
-	labelProxyProtocol  = "proxy_protocol"
+	labelClusterID     = "cluster_id"
+	labelIP            = "ip"
+	labelProtocol      = "protocol"
+	labelProxyProtocol = "proxy_protocol"
 )
