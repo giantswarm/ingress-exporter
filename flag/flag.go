@@ -1,8 +1,9 @@
 package flag
 
 import (
-	"github.com/giantswarm/ingress-exporter/flag/service"
 	"github.com/giantswarm/microkit/flag"
+
+	"github.com/giantswarm/ingress-exporter/flag/service"
 )
 
 type Flag struct {

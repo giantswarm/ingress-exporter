@@ -4,14 +4,15 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/giantswarm/ingress-exporter/flag"
-	"github.com/giantswarm/ingress-exporter/server"
-	"github.com/giantswarm/ingress-exporter/service"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/microkit/command"
 	microserver "github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
 	"github.com/spf13/viper"
+
+	"github.com/giantswarm/ingress-exporter/flag"
+	"github.com/giantswarm/ingress-exporter/server"
+	"github.com/giantswarm/ingress-exporter/service"
 )
 
 var (
