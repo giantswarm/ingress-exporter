@@ -7,6 +7,6 @@ import (
 )
 
 type Service struct {
-	Ingress ingress.Ingress
-	Kubernetes     kubernetes.Kubernetes
+	Ingress    ingress.Ingress
+	Kubernetes kubernetes.Kubernetes
 }
