@@ -23,15 +23,15 @@ var (
 )
 
 type EndpointConfig struct {
-	G8sClient        *versioned.Clientset
+	G8sClient *versioned.Clientset
 	K8sClient kubernetes.Interface
-	Logger           micrologger.Logger
+	Logger    micrologger.Logger
 }
 
 type Endpoint struct {
-	g8sClient        *versioned.Clientset
+	g8sClient *versioned.Clientset
 	k8sClient kubernetes.Interface
-	logger           micrologger.Logger
+	logger    micrologger.Logger
 
 	customLabels []string
 }
@@ -48,9 +48,9 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 	}
 
 	i := &Endpoint{
-		g8sClient:        config.G8sClient,
+		g8sClient: config.G8sClient,
 		k8sClient: config.K8sClient,
-		logger:           config.Logger,
+		logger:    config.Logger,
 	}
 
 	return i, nil

@@ -9,9 +9,9 @@ import (
 )
 
 type SetConfig struct {
-	G8sClient        *versioned.Clientset
+	G8sClient *versioned.Clientset
 	K8sClient kubernetes.Interface
-	Logger           micrologger.Logger
+	Logger    micrologger.Logger
 }
 
 // Set is basically only a wrapper for the operator's collector implementations.
@@ -27,9 +27,9 @@ func NewSet(config SetConfig) (*Set, error) {
 	var endpointCollector *Endpoint
 	{
 		c := EndpointConfig{
-			G8sClient:        config.G8sClient,
+			G8sClient: config.G8sClient,
 			K8sClient: config.K8sClient,
-			Logger:           config.Logger,
+			Logger:    config.Logger,
 		}
 
 		endpointCollector, err = NewEndpoint(c)

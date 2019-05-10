@@ -85,9 +85,9 @@ func New(config Config) (*Service, error) {
 	var exporterCollector *collector.Set
 	{
 		c := collector.SetConfig{
-			G8sClient:        g8sClient,
+			G8sClient: g8sClient,
 			K8sClient: k8sClient,
-			Logger:           config.Logger,
+			Logger:    config.Logger,
 		}
 
 		exporterCollector, err = collector.NewSet(c)
