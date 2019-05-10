@@ -14,7 +14,6 @@ var (
 		"Availability of ingress controller on ingress endpoint ip.",
 		[]string{
 			labelClusterID,
-			labelNode,
 			labelIP,
 			labelProtocol,
 			labelProxyProtocol,
