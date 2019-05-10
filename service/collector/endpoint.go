@@ -23,13 +23,13 @@ var (
 )
 
 type EndpointConfig struct {
-	CrdClient        *versioned.Clientset
+	G8sClient        *versioned.Clientset
 	KubernetesClient kubernetes.Interface
 	Logger           micrologger.Logger
 }
 
 type Endpoint struct {
-	crdClient        *versioned.Clientset
+	g8sClient        *versioned.Clientset
 	kubernetesClient kubernetes.Interface
 	logger           micrologger.Logger
 
@@ -37,8 +37,8 @@ type Endpoint struct {
 }
 
 func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
-	if config.CrdClient == nil {
-		return nil, microerror.Maskf(invalidConfigError, "%T.CrdClient must not be empty", config)
+	if config.G8sClient == nil {
+		return nil, microerror.Maskf(invalidConfigError, "%T.G8sClient must not be empty", config)
 	}
 	if config.KubernetesClient == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.KubernetesClient must not be empty", config)
@@ -48,7 +48,7 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 	}
 
 	i := &Endpoint{
-		crdClient:        config.CrdClient,
+		g8sClient:        config.G8sClient,
 		kubernetesClient: config.KubernetesClient,
 		logger:           config.Logger,
 	}

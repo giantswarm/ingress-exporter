@@ -66,7 +66,7 @@ func New(config Config) (*Service, error) {
 		}
 	}
 
-	var crdClient *versioned.Clientset
+	var g8sClient *versioned.Clientset
 	{
 		var restConfig *rest.Config
 		{
@@ -81,7 +81,7 @@ func New(config Config) (*Service, error) {
 			}
 		}
 
-		crdClient, err = versioned.NewForConfig(restConfig)
+		g8sClient, err = versioned.NewForConfig(restConfig)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}
@@ -90,7 +90,7 @@ func New(config Config) (*Service, error) {
 	var exporterCollector *collector.Set
 	{
 		c := collector.SetConfig{
-			CrdClient:        crdClient,
+			G8sClient:        g8sClient,
 			KubernetesClient: kubernetesClient,
 			Logger:           config.Logger,
 		}

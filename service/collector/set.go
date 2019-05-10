@@ -9,7 +9,7 @@ import (
 )
 
 type SetConfig struct {
-	CrdClient        *versioned.Clientset
+	G8sClient        *versioned.Clientset
 	KubernetesClient kubernetes.Interface
 	Logger           micrologger.Logger
 }
@@ -27,7 +27,7 @@ func NewSet(config SetConfig) (*Set, error) {
 	var endpointCollector *Endpoint
 	{
 		c := EndpointConfig{
-			CrdClient:        config.CrdClient,
+			G8sClient:        config.G8sClient,
 			KubernetesClient: config.KubernetesClient,
 			Logger:           config.Logger,
 		}
