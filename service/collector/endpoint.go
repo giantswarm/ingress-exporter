@@ -109,14 +109,47 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		for _, ip := range ipList {
 			err := e.ingressEndpointUpClassicHttp(ip, ingresSchemeHttp, ingressPortHttp)
 
-			// io.EOF error can be indicator of enabled proxy-protocol
-			if err != nil {
+			if err == nil {
+				// ingress endpoint check was successful, no proxy-protocol
+				ch <- prometheus.MustNewConstMetric(
+					endpointLabelsDesc,
+					prometheus.GaugeValue,
+					ingressCheckSucesfull,
+					kvmConfig.Name,
+					ip,
+					ingresSchemeHttp,
+					"false",
+				)
+
+			} else {
+				// ingress endpoint check error, but we might just hit proxy protocol so try check with proxy-protocol enabled
 				err := e.ingressEndpointUpProxyProtocol(ip, ingresSchemeHttp, ingressPortHttp)
-				if err != nil {
-					fmt.Printf("proxy protocol http error: %s\n", err)
-					return microerror.Mask(err)
+
+				if err == nil {
+					// ingress endpoint check was successful, proxy-protocol enabled
+					ch <- prometheus.MustNewConstMetric(
+						endpointLabelsDesc,
+						prometheus.GaugeValue,
+						ingressCheckSucesfull,
+						kvmConfig.Name,
+						ip,
+						ingresSchemeHttp,
+						"true",
+					)
 				}
-				// ingress check failed
+				if err != nil {
+					// ingress endpoint check failed
+					// ingress endpoint check was successful, proxy-protocol enabled
+					ch <- prometheus.MustNewConstMetric(
+						endpointLabelsDesc,
+						prometheus.GaugeValue,
+						ingressCheckFailure,
+						kvmConfig.Name,
+						ip,
+						ingresSchemeHttp,
+						"unknown",
+					)
+				}
 			}
 		}
 	}
@@ -143,7 +176,7 @@ func getEndpointIps(endpoint *corev1.Endpoints) []string {
 func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (*http.Request, error) {
 	u := url.URL{
 		Host:   fmt.Sprintf("%s:%d", ipAddress, port),
-		Path:   "healthz",
+		Path:   "", //healthz
 		Scheme: scheme,
 	}
 

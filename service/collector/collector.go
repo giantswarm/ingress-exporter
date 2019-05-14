@@ -22,6 +22,9 @@ const (
 	maxIdleConnection = 50
 	maxTimeoutSec     = 5
 
+	ingressCheckSucesfull = 1
+	ingressCheckFailure   = 0
+
 	ingresSchemeHttp   = "http"
 	ingressSchemeHttps = "https"
 
