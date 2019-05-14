@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	"io"
 	"net"
 	"net/http"
 	"net/url"
@@ -111,16 +110,13 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 			err := e.ingressEndpointUpClassicHttp(ip, ingresSchemeHttp, ingressPortHttp)
 
 			// io.EOF error can be indicator of enabled proxy-protocol
-			if err == io.EOF {
-				fmt.Printf("EOF error, possibly proxy protocol enabled\n")
+			if err != nil {
 				err := e.ingressEndpointUpProxyProtocol(ip, ingresSchemeHttp, ingressPortHttp)
 				if err != nil {
 					fmt.Printf("proxy protocol http error: %s\n", err)
 					return microerror.Mask(err)
 				}
 				// ingress check failed
-			} else if err != nil {
-				return microerror.Mask(err)
 			}
 		}
 	}
