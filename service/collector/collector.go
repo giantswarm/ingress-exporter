@@ -11,3 +11,20 @@ const (
 	labelProtocol      = "protocol"
 	labelProxyProtocol = "proxy_protocol"
 )
+
+const (
+	crdNamespace   = "default"
+	workerEndpoint = "worker"
+	masterEndpoint = "master"
+)
+
+const (
+	maxIdleConnection = 50
+	maxTimeoutSec     = 5
+
+	ingresSchemeHttp = "http"
+	ingressSchemeHttps = "https"
+
+	ingressPortHttp = 30010
+	ingressPortHttps = 30011
+)
