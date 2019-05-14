@@ -11,5 +11,6 @@ data:
           server: true
       listen:
         address: 'http://0.0.0.0:8000'
-    kubernetes:
-      incluster: true
+    service:
+      kubernetes:
+        incluster: true

@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ingress-exporter
+rules:
+  - apiGroups:
+      - provider.giantswarm.io
+    resources:
+      - awsconfigs
+      - kvmconfigs
+      - azureconfigs
+    verbs:
+      - "get"
+      - "list"
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - get
+      - "list"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ingress-exporter
+subjects:
+  - kind: ServiceAccount
+    name: ingress-exporter
+    namespace: monitoring
+roleRef:
+  kind: ClusterRole
+  name: ingress-exporter
+  apiGroup: rbac.authorization.k8s.io
