@@ -176,7 +176,7 @@ func getEndpointIps(endpoint *corev1.Endpoints) []string {
 func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (*http.Request, error) {
 	u := url.URL{
 		Host:   fmt.Sprintf("%s:%d", ipAddress, port),
-		Path:   "", //healthz
+		Path:   "healthz",
 		Scheme: scheme,
 	}
 
@@ -204,12 +204,11 @@ func (e *Endpoint) ingressEndpointUpClassicHttp(ipAddress string, scheme string,
 	}
 
 	// send request to http endpoint
-	response, err := e.httpClient.Do(req)
+	_, err = e.httpClient.Do(req)
 	if err != nil {
 		// ingress endpoint failed to respond properly
 		return microerror.Mask(err)
 	}
-	fmt.Printf("classic http response status %s\n", response.Status)
 
 	return nil
 }
@@ -249,12 +248,11 @@ func (e *Endpoint) ingressEndpointUpProxyProtocol(ipAddress string, scheme strin
 	}
 
 	// read http response from connection
-	response, err := http.ReadResponse(bufio.NewReader(conn), req)
+	_, err = http.ReadResponse(bufio.NewReader(conn), req)
 	if err != nil {
 		// handle error
 		return microerror.Mask(err)
 	}
-	fmt.Printf("proxy protocol response status %s\n", response.Status)
 
 	return nil
 }
