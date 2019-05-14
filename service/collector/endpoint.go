@@ -88,7 +88,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 	listOpts := metav1.ListOptions{}
 	getOpts := metav1.GetOptions{}
 
-	kvmConfigs, err := e.g8sClient.CoreV1alpha1().KVMClusterConfigs(crdNamespace).List(listOpts)
+	kvmConfigs, err := e.g8sClient.ProviderV1alpha1().KVMConfigs(crdNamespace).List(listOpts)
 	if err != nil {
 		return microerror.Mask(err)
 	}
