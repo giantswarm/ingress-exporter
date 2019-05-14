@@ -2,8 +2,10 @@ package collector
 
 import (
 	"bufio"
+	"bytes"
 	"crypto/tls"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"net/url"
@@ -107,13 +109,18 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		ipList := getEndpointIps(endpoint)
 		for _, ip := range ipList {
 			err := e.ingressEndpointUpClassicHttp(ip, ingresSchemeHttp, ingressPortHttp)
-			if err != nil {
-				fmt.Printf("classic http error: %s\n", err)
 
+			// io.EOF error can be indicator of enabled proxy-protocol
+			if err == io.EOF {
+				fmt.Printf("EOF error, possibly proxy protocol enabled\n")
 				err := e.ingressEndpointUpProxyProtocol(ip, ingresSchemeHttp, ingressPortHttp)
 				if err != nil {
 					fmt.Printf("proxy protocol http error: %s\n", err)
+					return microerror.Mask(err)
 				}
+				// ingress check failed
+			} else if err != nil {
+				return microerror.Mask(err)
 			}
 		}
 	}
@@ -173,26 +180,26 @@ func (e *Endpoint) ingressEndpointUpClassicHttp(ipAddress string, scheme string,
 		// ingress endpoint failed to respond properly
 		return microerror.Mask(err)
 	}
-	fmt.Printf("classic http response status %s", response.Status)
+	fmt.Printf("classic http response status %s\n", response.Status)
 
 	return nil
 }
 
 // ingressEndpointUpProxyProtocol send encapsulated http packet into proxy-protocol to the endpoint to ensure target ingress endpoint ip is up
 func (e *Endpoint) ingressEndpointUpProxyProtocol(ipAddress string, scheme string, port int) error {
-	var buffer bufio.ReadWriter
+	var buffer bytes.Buffer
 	// build http request
 	req, err := e.buildHttpRequest(ipAddress, scheme, port)
 	if err != nil {
 		return microerror.Mask(err)
 	}
 	// write proxy-protocol header to buffer
-	_, err = fmt.Fprintf(buffer, "PROXY TCP4 %s %s 80 80\r\n", e.localIP, e.localIP)
+	_, err = fmt.Fprintf(&buffer, "PROXY TCP4 %s %s 80 80\r\n", e.localIP, e.localIP)
 	if err != nil {
 		return microerror.Mask(err)
 	}
 	// write http request to buffer
-	err = req.Write(buffer)
+	err = req.Write(&buffer)
 	if err != nil {
 		return microerror.Mask(err)
 	}
@@ -218,7 +225,7 @@ func (e *Endpoint) ingressEndpointUpProxyProtocol(ipAddress string, scheme strin
 		// handle error
 		return microerror.Mask(err)
 	}
-	fmt.Printf("proxy protocol response status %s", response.Status)
+	fmt.Printf("proxy protocol response status %s\n", response.Status)
 
 	return nil
 }
