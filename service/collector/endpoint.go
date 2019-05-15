@@ -233,9 +233,8 @@ func (e *Endpoint) ingressEndpointUpProxyProtocol(ipAddress string, scheme strin
 	}
 
 	// open tcp connection to ingress endpoint
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", ipAddress, port))
+	conn, err := net.DialTimeout("tcp", fmt.Sprintf("%s:%d", ipAddress, port), maxTimeoutSec*time.Second)
 	if err != nil {
-		// handle error
 		return microerror.Mask(err)
 	}
 	defer conn.Close()
@@ -243,14 +242,12 @@ func (e *Endpoint) ingressEndpointUpProxyProtocol(ipAddress string, scheme strin
 	// write buffer to connection
 	_, err = buffer.WriteTo(conn)
 	if err != nil {
-		// handle error
 		return microerror.Mask(err)
 	}
 
 	// read http response from connection
 	_, err = http.ReadResponse(bufio.NewReader(conn), req)
 	if err != nil {
-		// handle error
 		return microerror.Mask(err)
 	}
 
