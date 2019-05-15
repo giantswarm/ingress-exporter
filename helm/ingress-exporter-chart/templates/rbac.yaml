@@ -6,9 +6,7 @@ rules:
   - apiGroups:
       - provider.giantswarm.io
     resources:
-      - awsconfigs
       - kvmconfigs
-      - azureconfigs
     verbs:
       - "get"
       - "list"
