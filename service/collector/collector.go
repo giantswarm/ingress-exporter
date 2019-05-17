@@ -23,9 +23,9 @@ const (
 	maxTimeoutSec     = 5
 
 	ingressCheckSuccessful = 1
-	ingressCheckFailure   = 0
+	ingressCheckFailure    = 0
 
-	ingressSchemeHttp   = "http"
+	ingressSchemeHttp  = "http"
 	ingressSchemeHttps = "https"
 
 	ingressPortHttp  = 30010
