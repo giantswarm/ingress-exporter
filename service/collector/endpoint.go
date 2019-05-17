@@ -112,7 +112,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 
 			ipList := getEndpointIps(endpoint)
 			for _, ip := range ipList {
-				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingresSchemeHttp, ingressPortHttp)
+				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingressSchemeHttp, ingressPortHttp)
 
 				// send ingress endpoint status metric
 				ch <- prometheus.MustNewConstMetric(
