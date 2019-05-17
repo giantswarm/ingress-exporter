@@ -187,10 +187,9 @@ func (e *Endpoint) ingressEndpointUp(ipAddress string, scheme string, port int) 
 	if err == nil {
 		// ingress endpoint check was successful, proxy-protocol enabled
 		return ingressCheckSucesfull, proxyProtocolTrue
-	} else {
-		// ingress endpoint check failure
-		return ingressCheckFailure, proxyProtocolUnknown
 	}
+	// ingress endpoint check failure
+	return ingressCheckFailure, proxyProtocolUnknown
 }
 
 // ingressEndpointUpClassicHttp send http packet to the endpoint to ensure target ingress endpoint ip is up
@@ -204,11 +203,12 @@ func (e *Endpoint) ingressEndpointUpClassicHttp(ipAddress string, scheme string,
 	defer e.httpTransport.CloseIdleConnections()
 
 	// send request to http endpoint
-	_, err = e.httpClient.Do(req)
+	resp, err := e.httpClient.Do(req)
 	if err != nil {
 		// ingress endpoint failed to respond properly
 		return microerror.Mask(err)
 	}
+	defer resp.Body.Close()
 
 	return nil
 }
