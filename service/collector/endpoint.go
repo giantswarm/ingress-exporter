@@ -121,7 +121,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 					ingressCheckState,
 					clusterID,
 					ip,
-					ingresSchemeHttp,
+					ingressSchemeHttp,
 					proxyProtocol,
 				)
 			}
