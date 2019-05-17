@@ -112,7 +112,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 
 			ipList := getEndpointIps(endpoint)
 			for _, ip := range ipList {
-				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingresSchemeHttp, ingressPortHttp)
+				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingressSchemeHttp, ingressPortHttp)
 
 				// send ingress endpoint status metric
 				ch <- prometheus.MustNewConstMetric(
@@ -121,7 +121,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 					ingressCheckState,
 					clusterID,
 					ip,
-					ingresSchemeHttp,
+					ingressSchemeHttp,
 					proxyProtocol,
 				)
 			}
@@ -174,19 +174,18 @@ func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (
 
 // ingressEndpointUp checks if ingress endpoint is up and responding to http traffic
 func (e *Endpoint) ingressEndpointUp(ipAddress string, scheme string, port int) (float64, string) {
-	err := e.ingressEndpointUpClassicHttp(ipAddress, ingresSchemeHttp, ingressPortHttp)
+	err := e.ingressEndpointUpClassicHttp(ipAddress, ingressSchemeHttp, ingressPortHttp)
 
 	if err == nil {
 		// ingress endpoint check was successful, no proxy-protocol
-		return ingressCheckSucesfull, proxyProtocolFalse
-
+		return ingressCheckSuccessful, proxyProtocolFalse
 	}
 	// ingress endpoint check error, but we might just hit proxy protocol so try check with proxy-protocol enabled
-	err = e.ingressEndpointUpProxyProtocol(ipAddress, ingresSchemeHttp, ingressPortHttp)
+	err = e.ingressEndpointUpProxyProtocol(ipAddress, ingressSchemeHttp, ingressPortHttp)
 
 	if err == nil {
 		// ingress endpoint check was successful, proxy-protocol enabled
-		return ingressCheckSucesfull, proxyProtocolTrue
+		return ingressCheckSuccessful, proxyProtocolTrue
 	}
 	// ingress endpoint check failure
 	return ingressCheckFailure, proxyProtocolUnknown
