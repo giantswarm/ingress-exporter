@@ -22,7 +22,7 @@ import (
 
 var (
 	endpointLabelsDesc *prometheus.Desc = prometheus.NewDesc(
-		prometheus.BuildFQName(namespace, subsystem, "avaiable"),
+		prometheus.BuildFQName(namespace, subsystem, "available"),
 		"Availability of ingress controller on ingress endpoint ip.",
 		[]string{
 			labelClusterID,
