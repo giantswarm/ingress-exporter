@@ -19,7 +19,7 @@ const (
 )
 
 const (
-	maxIdleConnection = 50
+	maxIdleConnection = 5
 	maxTimeoutSec     = 5
 
 	ingressCheckSucesfull = 1
@@ -30,4 +30,8 @@ const (
 
 	ingressPortHttp  = 30010
 	ingressPortHttps = 30011
+
+	proxyProtocolTrue    = "true"
+	proxyProtocolFalse   = "false"
+	proxyProtocolUnknown = "unknown"
 )

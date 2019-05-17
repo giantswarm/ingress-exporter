@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
+	"golang.org/x/sync/errgroup"
 	"net"
 	"net/http"
 	"net/url"
@@ -94,64 +95,43 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		return microerror.Mask(err)
 	}
 
+	g := &errgroup.Group{}
+
 	for _, kvmConfig := range kvmConfigs.Items {
 		if kvmConfig.DeletionTimestamp != nil {
 			// ignore clusters that are marked for deletion
 			continue
 		}
+		clusterID := kvmConfig.Name // https://golang.org/doc/faq#closures_and_goroutines
 
-		endpoint, err := e.k8sClient.CoreV1().Endpoints(kvmConfig.Name).Get(workerEndpoint, getOpts)
-		if err != nil {
-			return microerror.Mask(err)
-		}
+		g.Go(func() error {
+			endpoint, err := e.k8sClient.CoreV1().Endpoints(clusterID).Get(workerEndpoint, getOpts)
+			if err != nil {
+				return microerror.Mask(err)
+			}
 
-		ipList := getEndpointIps(endpoint)
-		for _, ip := range ipList {
-			err := e.ingressEndpointUpClassicHttp(ip, ingresSchemeHttp, ingressPortHttp)
+			ipList := getEndpointIps(endpoint)
+			for _, ip := range ipList {
+				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingresSchemeHttp, ingressPortHttp)
 
-			if err == nil {
-				// ingress endpoint check was successful, no proxy-protocol
+				// send ingress endpoint status metric
 				ch <- prometheus.MustNewConstMetric(
 					endpointLabelsDesc,
 					prometheus.GaugeValue,
-					ingressCheckSucesfull,
-					kvmConfig.Name,
+					ingressCheckState,
+					clusterID,
 					ip,
 					ingresSchemeHttp,
-					"false",
+					proxyProtocol,
 				)
-
-			} else {
-				// ingress endpoint check error, but we might just hit proxy protocol so try check with proxy-protocol enabled
-				err := e.ingressEndpointUpProxyProtocol(ip, ingresSchemeHttp, ingressPortHttp)
-
-				if err == nil {
-					// ingress endpoint check was successful, proxy-protocol enabled
-					ch <- prometheus.MustNewConstMetric(
-						endpointLabelsDesc,
-						prometheus.GaugeValue,
-						ingressCheckSucesfull,
-						kvmConfig.Name,
-						ip,
-						ingresSchemeHttp,
-						"true",
-					)
-				}
-				if err != nil {
-					// ingress endpoint check failed
-					// ingress endpoint check was successful, proxy-protocol enabled
-					ch <- prometheus.MustNewConstMetric(
-						endpointLabelsDesc,
-						prometheus.GaugeValue,
-						ingressCheckFailure,
-						kvmConfig.Name,
-						ip,
-						ingresSchemeHttp,
-						"unknown",
-					)
-				}
 			}
-		}
+			return nil
+		})
+	}
+
+	err = g.Wait()
+	if err != nil {
+		return microerror.Mask(err)
 	}
 
 	return nil
@@ -180,9 +160,6 @@ func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (
 		Scheme: scheme,
 	}
 
-	// be sure to close idle connection after health check is finished
-	defer e.httpTransport.CloseIdleConnections()
-
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return nil, microerror.Maskf(err, "unable to construct health check request")
@@ -195,6 +172,27 @@ func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (
 	return req, nil
 }
 
+// ingressEndpointUp checks if ingress endpoint is up and responding to http traffic
+func (e *Endpoint) ingressEndpointUp(ipAddress string, scheme string, port int) (float64, string) {
+	err := e.ingressEndpointUpClassicHttp(ipAddress, ingresSchemeHttp, ingressPortHttp)
+
+	if err == nil {
+		// ingress endpoint check was successful, no proxy-protocol
+		return ingressCheckSucesfull, proxyProtocolFalse
+
+	}
+	// ingress endpoint check error, but we might just hit proxy protocol so try check with proxy-protocol enabled
+	err = e.ingressEndpointUpProxyProtocol(ipAddress, ingresSchemeHttp, ingressPortHttp)
+
+	if err == nil {
+		// ingress endpoint check was successful, proxy-protocol enabled
+		return ingressCheckSucesfull, proxyProtocolTrue
+	} else {
+		// ingress endpoint check failure
+		return ingressCheckFailure, proxyProtocolUnknown
+	}
+}
+
 // ingressEndpointUpClassicHttp send http packet to the endpoint to ensure target ingress endpoint ip is up
 func (e *Endpoint) ingressEndpointUpClassicHttp(ipAddress string, scheme string, port int) error {
 	req, err := e.buildHttpRequest(ipAddress, scheme, port)
@@ -202,6 +200,8 @@ func (e *Endpoint) ingressEndpointUpClassicHttp(ipAddress string, scheme string,
 		// failed to build http req
 		return microerror.Mask(err)
 	}
+	// be sure to close idle connection after health check is finished
+	defer e.httpTransport.CloseIdleConnections()
 
 	// send request to http endpoint
 	_, err = e.httpClient.Do(req)
