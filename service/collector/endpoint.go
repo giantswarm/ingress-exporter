@@ -178,7 +178,7 @@ func (e *Endpoint) ingressEndpointUp(ipAddress string, scheme string, port int) 
 
 	if err == nil {
 		// ingress endpoint check was successful, no proxy-protocol
-		return ingressCheckSucesfull, proxyProtocolFalse
+		return ingressCheckSuccessful, proxyProtocolFalse
 
 	}
 	// ingress endpoint check error, but we might just hit proxy protocol so try check with proxy-protocol enabled
