@@ -25,7 +25,7 @@ const (
 	ingressCheckSuccessful = 1
 	ingressCheckFailure   = 0
 
-	ingresSchemeHttp   = "http"
+	ingressSchemeHttp   = "http"
 	ingressSchemeHttps = "https"
 
 	ingressPortHttp  = 30010
