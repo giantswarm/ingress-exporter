@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: ingress-exporter
+  name: {{ .Values.name }}
 rules:
   - apiGroups:
       - provider.giantswarm.io
@@ -21,12 +21,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: ingress-exporter
+  name: {{ .Values.name }}
 subjects:
   - kind: ServiceAccount
-    name: ingress-exporter
+    name: {{ .Values.name }}
     namespace: monitoring
 roleRef:
   kind: ClusterRole
-  name: ingress-exporter
+  name: {{ .Values.name }}
   apiGroup: rbac.authorization.k8s.io
