@@ -1,16 +1,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: ingress-exporter
-  namespace: monitoring
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
   labels:
-    app: ingress-exporter
+    app: {{ .Values.name }} 
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: ingress-exporter
+      app: {{ .Values.name }}
   strategy:
     type: RollingUpdate
   template:
@@ -18,7 +18,7 @@ spec:
       annotations:
         releasetime: {{ $.Release.Time }}
       labels:
-        app: ingress-exporter
+        app: {{ .Values.name }}
     spec:
       volumes:
         - name: ingress-exporter-configmap
@@ -27,8 +27,12 @@ spec:
             items:
               - key: config.yaml
                 path: config.yaml
+      serviceAccountName: ingress-exporter
+      securityContext:
+        runAsUser: {{ .Values.userID }}
+        runAsGroup: {{ .Values.groupID }}
       containers:
-      - name: ingress-exporter
+      - name: {{ .Values.name }}
         image: quay.io/giantswarm/ingress-exporter:[[ .SHA ]]
         volumeMounts:
           - name: ingress-exporter-configmap
@@ -53,6 +57,5 @@ spec:
         ports:
           - name: http
             containerPort: 8000
-      serviceAccountName: ingress-exporter
       imagePullSecrets:
       - name: ingress-exporter-pull-secret
