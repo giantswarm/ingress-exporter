@@ -11,16 +11,13 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/giantswarm/ingress-exporter/flag"
+	"github.com/giantswarm/ingress-exporter/pkg/project"
 	"github.com/giantswarm/ingress-exporter/server"
 	"github.com/giantswarm/ingress-exporter/service"
 )
 
 var (
-	description string     = "The ingress-exporter exports Prometheus metrics for tenant cluster ingress."
-	f           *flag.Flag = flag.New()
-	gitCommit   string     = "n/a"
-	name        string     = "ingress-exporter"
-	source      string     = "https://github.com/giantswarm/ingress-exporter"
+	f *flag.Flag = flag.New()
 )
 
 func main() {
@@ -52,13 +49,14 @@ func mainError() error {
 		{
 			c := service.Config{
 				Logger: newLogger,
+				Viper:  v,
 
-				Description: description,
+				Description: project.Description(),
 				Flag:        f,
-				GitCommit:   gitCommit,
-				ProjectName: name,
-				Source:      source,
-				Viper:       v,
+				GitCommit:   project.GitSHA(),
+				ProjectName: project.Name(),
+				Source:      project.Source(),
+				Version:     project.Version(),
 			}
 
 			newService, err = service.New(c)
@@ -76,7 +74,7 @@ func mainError() error {
 				Service: newService,
 				Viper:   v,
 
-				ProjectName: name,
+				ProjectName: project.Name(),
 			}
 
 			newServer, err = server.New(c)
@@ -95,10 +93,11 @@ func mainError() error {
 			Logger:        newLogger,
 			ServerFactory: newServerFactory,
 
-			Description: description,
-			GitCommit:   gitCommit,
-			Name:        name,
-			Source:      source,
+			Description: project.Description(),
+			GitCommit:   project.GitSHA(),
+			Name:        project.Name(),
+			Source:      project.Source(),
+			Version:     project.Version(),
 		}
 
 		newCommand, err = command.New(c)
