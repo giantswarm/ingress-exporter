@@ -1,5 +1,8 @@
 name: ingress-exporter
 namespace: monitoring
+image:
+  repository: "giantswarm/ingress-exporter"
+  tag: "[[ .Version ]]"
 
 userID: 1000
 groupID: 1000

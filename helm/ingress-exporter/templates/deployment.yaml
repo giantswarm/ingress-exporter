@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.name }} 
+    app: {{ .Values.name }}
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       annotations:
-        releasetime: {{ $.Release.Time }}
+        releaseRevision: {{ .Release.Revision | quote }}
       labels:
         app: {{ .Values.name }}
     spec:
@@ -33,7 +33,7 @@ spec:
         runAsGroup: {{ .Values.groupID }}
       containers:
       - name: {{ .Values.name }}
-        image: quay.io/giantswarm/ingress-exporter:[[ .SHA ]]
+        image: "quay.io/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         volumeMounts:
           - name: ingress-exporter-configmap
             mountPath: /var/run/ingress-exporter/configmap/
