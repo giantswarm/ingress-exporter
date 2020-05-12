@@ -20,7 +20,7 @@ workflows:
           username_envar: "QUAY_USERNAME"
           password_envar: "QUAY_PASSWORD"
           requires:
-            - go-build-ingress-exporter
+            - go-build
           filters:
             # Trigger the job also on git tag.
             tags:
@@ -33,7 +33,7 @@ workflows:
           username_envar: "ALIYUN_USERNAME"
           password_envar: "ALIYUN_PASSWORD"
           requires:
-            - go-build-ingress-exporter
+            - go-build
           filters:
             # Trigger the job also on git tag.
             tags:
