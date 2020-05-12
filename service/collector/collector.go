@@ -15,7 +15,7 @@ const (
 const (
 	crdNamespace   = "default"
 	workerEndpoint = "worker"
-	masterEndpoint = "master"
+	masterEndpoint = "master" // nolint: deadcode, varcheck
 )
 
 const (
@@ -26,10 +26,10 @@ const (
 	ingressCheckFailure    = 0
 
 	ingressSchemeHttp  = "http"
-	ingressSchemeHttps = "https"
+	ingressSchemeHttps = "https" // nolint: deadcode, varcheck
 
 	ingressPortHttp  = 30010
-	ingressPortHttps = 30011
+	ingressPortHttps = 30011 // nolint: deadcode, varcheck
 
 	proxyProtocolTrue    = "true"
 	proxyProtocolFalse   = "false"

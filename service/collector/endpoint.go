@@ -49,7 +49,7 @@ type Endpoint struct {
 	localIP       string
 	logger        micrologger.Logger
 
-	customLabels []string
+	customLabels []string // nolint: unused, structcheck
 }
 
 func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
@@ -64,7 +64,7 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 	}
 
 	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // nolint: gosec
 		MaxIdleConns:    maxIdleConnection,
 	}
 
