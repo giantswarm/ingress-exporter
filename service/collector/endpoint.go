@@ -5,11 +5,12 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	"golang.org/x/sync/errgroup"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
+
+	"golang.org/x/sync/errgroup"
 
 	"github.com/giantswarm/apiextensions/pkg/clientset/versioned"
 	"github.com/giantswarm/microerror"
@@ -162,7 +163,7 @@ func (e *Endpoint) buildHttpRequest(ipAddress string, scheme string, port int) (
 
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
-		return nil, microerror.Maskf(err, "unable to construct health check request")
+		return nil, microerror.Mask(err)
 	}
 
 	// close connection after health check request (the TCP connection gets
