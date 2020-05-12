@@ -5,5 +5,4 @@ description: >-
    all tenant clusters.
 home: https://github.com/giantswarm/ingress-exporter
 version: "[[ .Version ]]"
-appVersion: "[[ .AppVersion ]]
-
+appVersion: "[[ .AppVersion ]]"
