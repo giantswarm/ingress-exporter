@@ -26,11 +26,7 @@ func NewSet(config SetConfig) (*Set, error) {
 
 	var endpointCollector *Endpoint
 	{
-		c := EndpointConfig{
-			G8sClient: config.G8sClient,
-			K8sClient: config.K8sClient,
-			Logger:    config.Logger,
-		}
+		c := EndpointConfig(config)
 
 		endpointCollector, err = NewEndpoint(c)
 		if err != nil {

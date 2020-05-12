@@ -125,10 +125,11 @@ func New(config Config) (*Service, error) {
 
 func (s *Service) Boot(ctx context.Context) {
 	s.bootOnce.Do(func() {
-		go s.exporterCollector.Boot(ctx)
+		go s.exporterCollector.Boot(ctx) // nolint: errcheck
 	})
 }
 
+// nolint: unused, deadcode
 func mustParseJSONList(s string) []string {
 	var l []string
 	err := json.Unmarshal([]byte(s), &l)
