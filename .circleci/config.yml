@@ -42,6 +42,7 @@ workflows:
           context: architect
           name: push-ingress-exporter-to-kvm-app-collection
           app_name: "ingress-exporter"
+          app_namespace: "monitoring"
           app_collection_repo: "kvm-app-collection"
           unique: "true"
           requires:
