@@ -1,0 +1,8 @@
+apiVersion: v1
+name: ingress-exporter
+description: >-
+   ingress-exporter exports Prometheus metrics for avaiability of ingress for
+   all tenant clusters.
+home: https://github.com/giantswarm/ingress-exporter
+version: "[[ .Version ]]"
+appVersion: "[[ .AppVersion ]]"
