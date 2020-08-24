@@ -3,6 +3,7 @@ package collector
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"crypto/tls"
 	"fmt"
 	"net"
@@ -12,7 +13,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/giantswarm/apiextensions/pkg/clientset/versioned"
+	"github.com/giantswarm/apiextensions/v2/pkg/clientset/versioned"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/prometheus/client_golang/prometheus"
@@ -86,12 +87,13 @@ func NewEndpoint(config EndpointConfig) (*Endpoint, error) {
 }
 
 func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
+	ctx := context.Background()
 	// TODO
 	// Here we will put implementation of collecting data for each endpoint IP
 	listOpts := metav1.ListOptions{}
 	getOpts := metav1.GetOptions{}
 
-	kvmConfigs, err := e.g8sClient.ProviderV1alpha1().KVMConfigs(crdNamespace).List(listOpts)
+	kvmConfigs, err := e.g8sClient.ProviderV1alpha1().KVMConfigs(crdNamespace).List(ctx, listOpts)
 	if err != nil {
 		return microerror.Mask(err)
 	}
@@ -106,7 +108,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		clusterID := kvmConfig.Name // https://golang.org/doc/faq#closures_and_goroutines
 
 		g.Go(func() error {
-			endpoint, err := e.k8sClient.CoreV1().Endpoints(clusterID).Get(workerEndpoint, getOpts)
+			endpoint, err := e.k8sClient.CoreV1().Endpoints(clusterID).Get(ctx, workerEndpoint, getOpts)
 			if err != nil {
 				return microerror.Mask(err)
 			}
