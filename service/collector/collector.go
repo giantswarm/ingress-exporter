@@ -13,9 +13,10 @@ const (
 )
 
 const (
-	crdNamespace   = "default"
-	workerEndpoint = "worker"
-	masterEndpoint = "master" // nolint: deadcode, varcheck
+	controllerAppName = "nginx-ingress-controller"
+	crdNamespace      = "default"
+	workerEndpoint    = "worker"
+	masterEndpoint    = "master" // nolint: deadcode, varcheck
 )
 
 const (
