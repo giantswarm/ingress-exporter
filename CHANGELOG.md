@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# Changed
+
+- Do not collect metrics for clusters without nginx-ingress-controller
+- Add getting of apps to rbac role
+
 ## [1.0.0] - 2020-08-24
 
 ## Changed
