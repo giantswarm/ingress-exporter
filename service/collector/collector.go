@@ -13,10 +13,13 @@ const (
 )
 
 const (
-	controllerAppName = "nginx-ingress-controller"
-	crdNamespace      = "default"
-	workerEndpoint    = "worker"
-	masterEndpoint    = "master" // nolint: deadcode, varcheck
+	crdNamespace   = "default"
+	workerEndpoint = "worker"
+	masterEndpoint = "master" // nolint: deadcode, varcheck
+)
+
+const (
+	nginxIngressControllerAppName = "nginx-ingress-controller-app"
 )
 
 const (

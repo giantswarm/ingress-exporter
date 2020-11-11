@@ -116,7 +116,7 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 
 		if !isNginxIngressControllerInstalled(appList) {
 			// When nginx ingress controller is not deployed, worker ports are not open so there is no need to check for connectivity
-			e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("skipping cluster %#q since it doesn't have %#q installed", kvmConfig.Spec.Cluster.ID, controllerAppName))
+			e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("skipping cluster %#q since it doesn't have %#q installed", kvmConfig.Spec.Cluster.ID, nginxIngressControllerAppName))
 			continue
 		}
 
@@ -288,7 +288,7 @@ func getLocalIP() string {
 
 func isNginxIngressControllerInstalled(appList *v1alpha1.AppList) bool {
 	for _, app := range appList.Items {
-		if app.Spec.Name == "nginx-ingress-controller-app" {
+		if app.Spec.Name == nginxIngressControllerAppName {
 			return true
 		}
 	}
