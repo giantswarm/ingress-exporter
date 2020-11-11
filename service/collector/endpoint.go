@@ -13,12 +13,12 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
+	"github.com/giantswarm/apiextensions/v2/pkg/apis/application/v1alpha1"
 	"github.com/giantswarm/apiextensions/v2/pkg/clientset/versioned"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/prometheus/client_golang/prometheus"
 	corev1 "k8s.io/api/core/v1"
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -109,12 +109,15 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		}
 		clusterID := kvmConfig.Name // https://golang.org/doc/faq#closures_and_goroutines
 
-		_, err := e.g8sClient.ApplicationV1alpha1().Apps(kvmConfig.Spec.Cluster.ID).Get(ctx, controllerAppName, v1.GetOptions{})
-		if apierrors.IsNotFound(err) {
+		appList, err := e.g8sClient.ApplicationV1alpha1().Apps(kvmConfig.Spec.Cluster.ID).List(ctx, v1.ListOptions{})
+		if err != nil {
+			return microerror.Mask(err)
+		}
+
+		if !isNginxIngressControllerInstalled(appList) {
+			// When nginx ingress controller is not deployed, worker ports are not open so there is no need to check for connectivity
 			e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("skipping cluster %#q since it doesn't have %#q installed", kvmConfig.Spec.Cluster.ID, controllerAppName))
 			continue
-		} else if err != nil {
-			return microerror.Mask(err)
 		}
 
 		g.Go(func() error {
@@ -281,4 +284,14 @@ func getLocalIP() string {
 		}
 	}
 	return ""
+}
+
+func isNginxIngressControllerInstalled(appList *v1alpha1.AppList) bool {
+	for _, app := range appList.Items {
+		if app.Spec.Name == "nginx-ingress-controller-app" {
+			return true
+		}
+	}
+
+	return false
 }
