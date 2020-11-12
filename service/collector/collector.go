@@ -19,6 +19,10 @@ const (
 )
 
 const (
+	nginxIngressControllerAppName = "nginx-ingress-controller-app"
+)
+
+const (
 	maxIdleConnection = 5
 	maxTimeoutSec     = 5
 
