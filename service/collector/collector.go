@@ -24,7 +24,7 @@ const (
 
 const (
 	maxIdleConnection = 5
-	maxTimeoutSec     = 5
+	maxTimeoutSec     = 3
 
 	ingressCheckSuccessful = 1
 	ingressCheckFailure    = 0
