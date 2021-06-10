@@ -25,6 +25,7 @@ const (
 const (
 	maxIdleConnection = 5
 	maxTimeoutSec     = 3
+	maxGoroutines     = 30
 
 	ingressCheckSuccessful = 1
 	ingressCheckFailure    = 0

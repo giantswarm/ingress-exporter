@@ -100,6 +100,8 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 	}
 
 	wg := sync.WaitGroup{}
+	workers := make(chan bool, maxGoroutines)
+	defer close(workers)
 
 	for _, kvmConfig := range kvmConfigs.Items {
 		if kvmConfig.DeletionTimestamp != nil {
@@ -132,6 +134,9 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 
 			go func(ip string, wg *sync.WaitGroup) {
 				defer wg.Done()
+
+				workers <- true
+				defer func() { <-workers }()
 
 				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingressSchemeHttp, ingressPortHttp)
 
