@@ -9,9 +9,8 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"sync"
 	"time"
-
-	"golang.org/x/sync/errgroup"
 
 	"github.com/giantswarm/apiextensions/v2/pkg/apis/application/v1alpha1"
 	"github.com/giantswarm/apiextensions/v2/pkg/clientset/versioned"
@@ -100,7 +99,9 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		return microerror.Mask(err)
 	}
 
-	g := &errgroup.Group{}
+	wg := sync.WaitGroup{}
+	workers := make(chan bool, maxGoroutines)
+	defer close(workers)
 
 	for _, kvmConfig := range kvmConfigs.Items {
 		if kvmConfig.DeletionTimestamp != nil {
@@ -117,17 +118,26 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 		if !isNginxIngressControllerInstalled(appList) {
 			// When nginx ingress controller is not deployed, worker ports are not open so there is no need to check for connectivity
 			e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("skipping cluster %#q since it doesn't have %#q installed", kvmConfig.Spec.Cluster.ID, nginxIngressControllerAppName))
+
 			continue
 		}
 
-		g.Go(func() error {
-			endpoint, err := e.k8sClient.CoreV1().Endpoints(clusterID).Get(ctx, workerEndpoint, getOpts)
-			if err != nil {
-				return microerror.Mask(err)
-			}
+		endpoint, err := e.k8sClient.CoreV1().Endpoints(clusterID).Get(ctx, workerEndpoint, getOpts)
+		if err != nil {
+			return microerror.Mask(err)
+		}
 
-			ipList := getEndpointIps(endpoint)
-			for _, ip := range ipList {
+		ipList := getEndpointIps(endpoint)
+
+		for _, ip := range ipList {
+			wg.Add(1)
+
+			go func(ip string, wg *sync.WaitGroup) {
+				defer wg.Done()
+
+				workers <- true
+				defer func() { <-workers }()
+
 				ingressCheckState, proxyProtocol := e.ingressEndpointUp(ip, ingressSchemeHttp, ingressPortHttp)
 
 				// send ingress endpoint status metric
@@ -140,15 +150,11 @@ func (e *Endpoint) Collect(ch chan<- prometheus.Metric) error {
 					ingressSchemeHttp,
 					proxyProtocol,
 				)
-			}
-			return nil
-		})
+			}(ip, &wg)
+		}
 	}
 
-	err = g.Wait()
-	if err != nil {
-		return microerror.Mask(err)
-	}
+	wg.Wait()
 
 	return nil
 }
