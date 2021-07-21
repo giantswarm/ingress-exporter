@@ -6,3 +6,8 @@ image:
 
 userID: 1000
 groupID: 1000
+
+registry:
+  domain: docker.io
+  pullSecret:
+    dockerConfigJSON: ""

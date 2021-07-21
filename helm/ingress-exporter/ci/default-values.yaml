@@ -1,6 +1,0 @@
-Installation:
-  V1:
-    Secret:
-      Registry:
-        PullSecret:
-          DockerConfigJSON: ""
