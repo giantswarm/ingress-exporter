@@ -33,7 +33,7 @@ spec:
         runAsGroup: {{ .Values.groupID }}
       containers:
       - name: {{ .Values.name }}
-        image: "quay.io/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.registry.domain }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         volumeMounts:
           - name: ingress-exporter-configmap
             mountPath: /var/run/ingress-exporter/configmap/

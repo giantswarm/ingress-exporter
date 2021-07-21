@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Replace `jwt-go` with `golang-jwt/jwt`.
+- Prepare helm values to configuration management.
+- Update architect-orb to v3.0.0.
 
 ## [1.0.3] - 2021-06-14
 
