@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump alpine from 3.14.2 to 3.15.0
+
 ## [1.1.0] - 2021-07-21
 
 ### Changed
