@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use giantswarm alpine container image
+- Update github.com/giantswarm/microendpoint to v1.0.0
+- Update github.com/giantswarm/microerror to v0.4.0
+- Update github.com/giantswarm/microkit to v1.0.0
+- Update github.com/giantswarm/micrologger to v0.6.0
+- Update github.com/spf13/viper to v1.10.1
+
+
 ## [1.1.0] - 2021-07-21
 
 ### Changed
