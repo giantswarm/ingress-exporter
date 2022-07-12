@@ -26,4 +26,3 @@ sonatype-2021-1485
 
 # pkg:golang/github.com/lucas-clemente/quic-go@v0.13.1
 CVE-2022-30591
-ma
