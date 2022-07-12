@@ -19,9 +19,16 @@ require (
 )
 
 replace (
+	github.com/caddyserver/caddy v1.0.3 => github.com/caddyserver/caddy v1.0.5
 	github.com/coreos/etcd v3.3.10+incompatible => github.com/coreos/etcd v3.3.25+incompatible
 	github.com/coreos/etcd v3.3.13+incompatible => github.com/coreos/etcd v3.3.25+incompatible
 	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt v3.2.1+incompatible
+	github.com/gin-gonic/gin v1.4.0 => github.com/gin-gonic/gin v1.8.1
 	github.com/gogo/protobuf v1.3.1 => github.com/gogo/protobuf v1.3.2
 	github.com/gorilla/websocket v1.4.0 => github.com/gorilla/websocket v1.4.2
+	github.com/kataras/iris/v12 v12.0.1 => github.com/kataras/iris/v12 v12.1.8
+	github.com/labstack/echo/v4 v4.1.11 => github.com/labstack/echo/v4 v4.7.2
+	github.com/microcosm-cc/bluemonday v1.0.2 => github.com/microcosm-cc/bluemonday v1.0.18
+	github.com/valyala/fasthttp v1.6.0 => github.com/valyala/fasthttp v1.38.0
+	go.mongodb.org/mongo-driver v1.1.2 => go.mongodb.org/mongo-driver v1.9.1
 )
