@@ -3,9 +3,6 @@ CVE-2022-29718
 CVE-2022-34037
 
 # pkg:golang/github.com/hashicorp/consul/api@v1.12.0
-CVE-2022-29153
-CVE-2022-24687
-
 # pkg:golang/github.com/hashicorp/consul/sdk@v0.8.0
 CVE-2022-29153
 CVE-2022-24687
@@ -27,3 +24,6 @@ sonatype-2021-1485
 
 # pkg:golang/github.com/lucas-clemente/quic-go@v0.13.1
 CVE-2022-30591
+
+# pkg:golang/github.com/labstack/echo/v4@v4.7.2
+sonatype-2022-5436
