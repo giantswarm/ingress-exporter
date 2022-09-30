@@ -27,3 +27,7 @@ CVE-2022-30591
 
 # pkg:golang/github.com/labstack/echo/v4@v4.7.2
 sonatype-2022-5436
+
+# pkg:golang/github.com/hashicorp/consul/api@v1.12.0
+# pkg:golang/github.com/hashicorp/consul/sdk@v0.8.0
+CVE-2021-41803
