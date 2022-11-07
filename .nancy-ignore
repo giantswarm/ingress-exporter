@@ -18,6 +18,8 @@ CVE-2022-29946
 CVE-2022-24450
 CVE-2022-26652
 CVE-2022-28357
+CVE-2022-42709
+CVE-2022-42708
 
 # pkg:golang/github.com/urfave/negroni@v1.0.0
 sonatype-2021-1485
