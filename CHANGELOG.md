@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.3] - 2022-11-10
 
+### Changed
+
+- Update github.com/prometheus/client_golang to v1.14.0
+
 ## [1.1.2] - 2022-11-07
 
 ## [1.1.1] - 2022-09-30
@@ -23,7 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update github.com/giantswarm/micrologger to v0.6.0
 - Update github.com/spf13/viper to v1.10.1
 - Update github.com/giantswarm/exporterkit to v1.0.0
-- Update github.com/prometheus/client_golang to v1.14.0
 
 ## [1.1.0] - 2021-07-21
 
