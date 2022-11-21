@@ -1,4 +1,4 @@
-FROM quay.io/giantswarm/alpine:3.16.3
+FROM quay.io/giantswarm/alpine:3.17
 
 RUN apk add --update ca-certificates \
     && rm -rf /var/cache/apk/*
