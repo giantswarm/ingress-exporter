@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump giantswarm/alpine from 3.16.3 to 3.17 #169 
+
 ## [1.1.4] - 2022-11-14
 
 ## [1.1.3] - 2022-11-10
