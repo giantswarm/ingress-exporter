@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.6] - 2023-01-16
 
+### Changed
+
+- Bump giantswarm/alpine from 3.17 to 3.17.1 ([#176](https://github.com/giantswarm/ingress-exporter/pull/176))
+
 ## [1.1.5] - 2022-11-21
 
 ### Changed
