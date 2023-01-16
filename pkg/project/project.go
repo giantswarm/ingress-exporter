@@ -5,7 +5,7 @@ var (
 	gitSHA      = "n/a"
 	name        = "ingress-exporter"
 	source      = "https://github.com/giantswarm/ingress-exporter"
-	version     = "1.1.6"
+	version     = "1.1.7-dev"
 )
 
 func Description() string {
