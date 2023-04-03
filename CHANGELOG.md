@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.8] - 2023-04-03
+
 ### Changed
 
 - Bump giantswarm/alpine from 3.17.2 to 3.17.3 ([#188](https://github.com/giantswarm/ingress-exporter/pull/188))
@@ -87,7 +89,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release
 
-[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.7...HEAD
+[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.8...HEAD
+[1.1.8]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.4...v1.1.5
