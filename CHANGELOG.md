@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.9] - 2023-04-24
+
 ### Added
 
 - Add icon.
@@ -93,7 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release
 
-[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.8...HEAD
+[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.9...HEAD
+[1.1.9]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.5...v1.1.6
