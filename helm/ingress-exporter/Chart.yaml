@@ -4,6 +4,7 @@ description: >-
    ingress-exporter exports Prometheus metrics for avaiability of ingress for
    all tenant clusters.
 home: https://github.com/giantswarm/ingress-exporter
+icon: https://s.giantswarm.io/app-icons/prometheus/1/light.svg
 version: "[[ .Version ]]"
 appVersion: "[[ .AppVersion ]]"
 annotations:
