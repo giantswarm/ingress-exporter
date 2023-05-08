@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.10] - 2023-05-08
+
 ### Changed
 
 - Bump github.com/prometheus/client_golang from 1.15.0 to 1.15.1 ([#201](https://github.com/giantswarm/ingress-exporter/pull/201))
@@ -99,7 +101,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release
 
-[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.9...HEAD
+[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.10...HEAD
+[1.1.10]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.9...v1.1.10
 [1.1.9]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.6...v1.1.7
