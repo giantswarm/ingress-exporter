@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "groupID": {
+            "type": "integer"
+        },
+        "image": {
+            "type": "object",
+            "properties": {
+                "repository": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            }
+        },
+        "name": {
+            "type": "string"
+        },
+        "namespace": {
+            "type": "string"
+        },
+        "registry": {
+            "type": "object",
+            "properties": {
+                "domain": {
+                    "type": "string"
+                },
+                "pullSecret": {
+                    "type": "object",
+                    "properties": {
+                        "dockerConfigJSON": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "userID": {
+            "type": "integer"
+        }
+    }
+}
