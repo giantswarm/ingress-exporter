@@ -3,6 +3,7 @@ CVE-2022-29718
 
 # pkg:golang/github.com/gin-gonic/gin@v1.8.1
 CVE-2023-26125
+CVE-2023-29401
 
 # pkg:golang/github.com/hashicorp/consul/api@v1.15.3
 # pkg:golang/github.com/hashicorp/consul/sdk@v0.11.0
