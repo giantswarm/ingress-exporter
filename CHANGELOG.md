@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump github.com/spf13/viper from 1.15.0 to 1.16.0 ([#209](https://github.com/giantswarm/ingress-exporter/pull/209))
+
 ## [1.1.11] - 2023-05-15
 
 ### Changed
