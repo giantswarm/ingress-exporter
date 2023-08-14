@@ -8,9 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.14] - 2023-08-14
+
 ### Changed
 
 - Do not install PodSecurityPolicy if api not available.
+- Bump giantswarm/alpine from 3.18.2 to 3.18.3 ([#225](https://github.com/giantswarm/ingress-exporter/pull/225))
 
 ## [1.1.13] - 2023-06-19
 
@@ -124,7 +127,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release
 
-[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.13...HEAD
+[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.14...HEAD
+[1.1.14]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.13...v1.1.14
 [1.1.13]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.12...v1.1.13
 [1.1.12]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.11...v1.1.12
 [1.1.11]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.10...v1.1.11
