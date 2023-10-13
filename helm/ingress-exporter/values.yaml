@@ -11,3 +11,7 @@ registry:
   domain: docker.io
   pullSecret:
     dockerConfigJSON: ""
+
+global:
+  podSecurityStandards:
+    enforced: true
