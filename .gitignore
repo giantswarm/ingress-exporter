@@ -1,1 +1,3 @@
 /ingress-exporter
+*.kube.config
+ingress-exporter-*-linux-amd64
