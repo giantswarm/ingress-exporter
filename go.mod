@@ -1,6 +1,6 @@
 module github.com/giantswarm/ingress-exporter
 
-go 1.21
+go 1.20
 
 require (
 	github.com/giantswarm/apiextensions/v2 v2.6.2
