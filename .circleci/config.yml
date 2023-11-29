@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@4.34.1
+  architect: giantswarm/architect@4.35.5
 
 workflows:
   build:
@@ -12,18 +12,14 @@ workflows:
             tags:
               only: /^v.*/
 
-      - architect/push-to-docker:
-          name: push-to-quay
+      - architect/push-to-registries:
           context: architect
-          image: quay.io/giantswarm/ingress-exporter
-          username_envar: QUAY_USERNAME
-          password_envar: QUAY_PASSWORD
+          name: push-to-registries
+          requires:
+            - go-build
           filters:
             tags:
               only: /^v.*/
-          requires:
-            - go-build
-
       - architect/push-to-app-catalog:
           name: push-to-control-plane-app-catalog
           context: architect
@@ -34,4 +30,4 @@ workflows:
             tags:
               only: /^v.*/
           requires:
-            - push-to-quay
+            - push-to-registries
