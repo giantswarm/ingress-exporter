@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2023-12-13
+
 ### Changed
 
 - Configure `gsoci.azurecr.io` as the default container image registry.
@@ -137,7 +139,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - First release
 
-[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/giantswarm/ingress-exporter/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/giantswarm/ingress-exporter/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.14...v1.2.0
 [1.1.14]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.13...v1.1.14
 [1.1.13]: https://github.com/giantswarm/ingress-exporter/compare/v1.1.12...v1.1.13
